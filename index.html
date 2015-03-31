@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Setting up EC2 with Apache, Phalcon and MongoDB">
+        <meta name="author" content="https://nl.linkedin.com/in/frankbroersen">
+
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+        <title>FrankBroersen - Setting up EC2 with Apache, Phalcon and MongoDB</title>
+
+        <link href="style.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-38006851-7', 'auto');
+          ga('send', 'pageview');
+        </script>
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/" class="navbar-brand">Frank Broersen</a>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-main">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#top">About</a></li>
+                        <li><a href="#ssh">SSH</a></li>
+                        <li><a href="#apache">Apache</a></li>
+                        <li><a href="#mongodb">MongoDB</a></li>
+                        <li><a href="#phalcon-php">Phalcon + PHP</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav pull-right">
+                        <li>
+                            <a href='https://nl.linkedin.com/in/frankbroersen' target='_blank'>LinkedIn</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+
+            <div class="page-header" id="banner">
+                <div class="row">
+                    <div class="col-lg-8 col-md-7 col-sm-6">
+                        <h1>EC2 configuration</h1>
+                        <p class="lead">Install Linux, Apache, MongoDB, PHP and Phalcon in less then 10 minutes</p>
+                        <p>Note: This is my personal installation reference, published without any warranty, usage is at your own risk.</p>
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-sm-6">
+                        <div class="sponsor">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">     
+                <div class="col-xs-8">
+                    
+                    <h2 id="ssh">First time SSH</h2>
+                    <p>When ssh'ing to your server, very likely you will get warnings that the locale is not set correctly, or is not installed.</p>
+                    <p>This is because the server (by default) accepts the locale that your machine sends when connecting to the server, in my case nl_NL is not by default installed on the server, therefor i get a warning.</p>
+            
+                    <p>To prevent this error from occuring, update the ssh configuration</p>
+                    <pre><code class="shell">sudo nano /etc/ssh/sshd_config</code></pre>
+
+                    <p>Find the following code (ctrl + w)</p>
+                    <pre><code class="shell"># Allow client to pass locale environment variables
+AcceptEnv LANG LC_*</code></pre>
+
+                    <p>And change it to</p>
+                    <pre><code class="shell"># Allow client to pass locale environment variables
+# AcceptEnv LANG LC_*</code></pre>
+
+                    <p>Restart the ssh service</p>
+                    <pre><code class="shell">sudo service ssh restart</code></pre>
+                    
+                    <p>And update the installed packages</p>                    
+                    <pre><code class="shell">sudo apt-get update && sudo apt-get upgrade</code></pre>
+                    
+                </div>
+                <div class="col-xs-4">
+                    <img src='img/terminal.jpg' class='img-responsive' />
+                </div>                
+            </div>
+            
+            <hr/>
+                   
+            <div class="row">     
+                <div class="col-xs-4">                    
+                    <img src='img/mongodb.jpg' class='img-responsive' />
+                </div>
+                <div class="col-xs-8">
+                         
+                    <h2 id="mongodb">MongoDB installation</h2>
+
+                    <pre><code class="shell">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org</code></pre>
+                </div>
+            </div>
+            
+            <hr/>
+            
+            <div class="row">     
+                <div class="col-xs-8">
+                         
+                    <h2 id="apache">Apache installation</h2>            
+
+                    <pre><code class="shell">sudo apt-get install apache2</code></pre>
+
+                    <p>Enable mod_headers &amp; mod_rewrite (for use in .htaccess)</p>
+                    
+                    <pre><code class="shell">sudo a2enmod rewrite
+sudo a2enmod headers
+sudo apachectl restart</code></pre>
+                    
+                    <p>Good practice for production servers would be to not broadcast your apache / php version:</p>
+                    
+                    <pre><code class="shell">sudo nano /etc/apache2/conf-enabled/security.conf</code></pre>
+                    <pre><code class="shell"># Find the ServerTokens setting and set it to Prod
+ServerTokens Prod
+
+# Find the ServerSignature setting and set it to Off
+ServerSignature Off</code></pre>
+                    
+                    <p>Restart apache</p>                    
+                    <pre><code class="shell">sudo apachectl restart</code></pre>
+                    
+                </div>
+                <div class="col-xs-4">                    
+                    <img src='img/apache.jpg' class='img-responsive' />
+                </div>
+            </div>
+            
+            <hr/>
+
+            <div class="row"> 
+                <div class="col-xs-4">
+                    <img src='img/phalcon-php.jpg' class='img-responsive' />
+                </div>    
+                <div class="col-xs-8">
+                         
+                    <h2 id="phalcon-php">PHP + Phalcon + Mongo-php Installation</h2>
+                    
+                    <p>Install phalcon by adding the stable phalcon repository first,and then installing php plus the required modules:</p>
+            
+                    <pre><code class="shell">sudo apt-add-repository ppa:phalcon/stable
+sudo apt-get update
+sudo apt-get install php5-phalcon php5-mongo libapache2-mod-php5</code></pre>
+
+                    <p>Test your php installation</p>
+                    <pre><code class="shell">sudo nano /var/www/html/info.php</code></pre>
+                    <pre><code class="php">&lt;?php
+phpinfo();</code></pre>
+                    
+                </div>
+            </div>
+            
+            <hr/>
+            
+            <p align='center'>Last updated: some time ago, I you have any improvements, write me on LinkedIn.</p>
+
+        </div>
+
+        <script>
+            hljs.configure({tabReplace: '    '});
+            hljs.initHighlightingOnLoad();
+        </script>
+
+    </body>
+</html>
