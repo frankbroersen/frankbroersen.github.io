@@ -162,27 +162,27 @@
             
             <h4>7. Our first optimization</h4>
             
-            <p>If we have the following situation:</p>
-            
-            <pre><code>The first point chosen is: 0, 5</code></pre>
-            
+            <p>If we have the following situation:<br/>The first point chosen is: 0, 5</p>
+
             <p>The available options are now:</p>
-            
+
             <ul>
-                <li>up: 0, 4
-                <li>right: 1, 5
-                <li>down: 0, 6
+                <li>moving up: 0, 4
+                <li>moving right: 1, 5
+                <li>moving down: 0, 6
             </ul>
 
-            <p>The special thing that you might notice, is that the chance of moving
-            vertically is 66%, while the chance of moving right, is only 33%!</p>
-            
-            <p>To solve this, we can update our code, that in the case that we have 3 options,
-            we give the 1 option that has less chance, the same chance as the other 2.</p>
-            
+            <p>The thing that you might notice, is that the chance of moving
+                vertically is 66%, while the chance of moving right, is only 33%!</p>
+
+            <p>To make this an equal chance, we can update our code, that in the case that we have 3 options,
+                we give the 1 option that has less chance, the same chance as the other 2.</p>
+
+            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.3/chance.js')); ?></code></pre>
+
+            <p><a href="code/2.3/index.html" target="_blank">Look at the example</a> to see our equal chance algorithm.</p>
+
             <hr/>
-            
-            <h4>6. Make sure we have an exit</h4>
             
         </div>
     </body>
