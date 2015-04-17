@@ -1,0 +1,1 @@
+markAsVisited(neighbor);
