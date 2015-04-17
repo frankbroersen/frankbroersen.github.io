@@ -39,6 +39,17 @@ $(function() {
 });
 
 /**
+ * Complete the maze
+ */
+function finish() {
+    var rand_y = rand(0, max_y);
+    getElement(0, rand_y).addClass('no-border-left').html('<div class=start></div>');
+    //
+    var rand_y = rand(0, max_y);
+    getElement(max_x - 1, rand_y).addClass('no-border-right').html('<div class=end></div>');
+}
+
+/**
  * Find the next point, and repeat this step untill we run out of neighbors
  */
 function next(point) {
@@ -52,6 +63,8 @@ function next(point) {
     if(neighbor === false) {
         neighbor = pickRandomPotentialNeighbor();
         if(!neighbor) {
+            // 
+            finish();
             return false;
         }
         // set the starting point, for removing the border later on
@@ -180,11 +193,19 @@ function findNeighbors(x, y) {
         neighbors.push(option_y);
         count.y++;
     }
-    if(count.x > count.y && count.y > 0) {
+    if(count.x === 1 && count.y === 1) {    // x == 1, so we want to have 3 y
+        neighbors.push(option_y);
         neighbors.push(option_y);
     }
-    if(count.y > count.x && count.x > 0) {
-        neighbors.push(option_x);
+    if(count.x === 1 && count.y === 2) {    // x == 1, so we want to have 3 y
+        neighbors.push(option_y);
+    }
+    if(count.x === 2 && count.y === 1) {    // x == 2, so we want to have 6 y
+        neighbors.push(option_y);
+        neighbors.push(option_y);
+        neighbors.push(option_y);
+        neighbors.push(option_y);
+        neighbors.push(option_y);
     }
     return neighbors;
 }

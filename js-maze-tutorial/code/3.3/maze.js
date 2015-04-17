@@ -39,6 +39,17 @@ $(function() {
 });
 
 /**
+ * Complete the maze
+ */
+function finish() {
+    var rand_y = rand(0, max_y);
+    getElement(0, rand_y).addClass('no-border-left').html('<div class=start></div>');
+    //
+    var rand_y = rand(0, max_y);
+    getElement(max_x - 1, rand_y).addClass('no-border-right').html('<div class=end></div>');
+}
+
+/**
  * Find the next point, and repeat this step untill we run out of neighbors
  */
 function next(point) {
@@ -52,6 +63,8 @@ function next(point) {
     if(neighbor === false) {
         neighbor = pickRandomPotentialNeighbor();
         if(!neighbor) {
+            // 
+            finish();
             return false;
         }
         // set the starting point, for removing the border later on

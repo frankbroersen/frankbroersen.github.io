@@ -82,7 +82,7 @@
             
             <hr/>
             
-            <h4>0. General</h4>
+            <h4>2.0 General</h4>
             
             <p>To indicate a position on the grid, we define an object that looks as follows, since a point has an x and y value.</p>
             
@@ -94,7 +94,7 @@
             
             <hr/>
             
-            <h4>1. The starting point of the maze</h4>
+            <h4>2.1 The starting point of the maze</h4>
             
             <p>We will start our maze, always on the left side of the x axis, and pick a random position on the y axis:</p>
             
@@ -113,7 +113,7 @@
 
             <hr/>
             
-            <h4>2. Continuing our path</h4>
+            <h4>2.2 Continuing our path</h4>
             
             <p>Now that we have our starting point defined, it is time to find the next point on our grid
             to continue the path of the maze.</p>
@@ -138,7 +138,7 @@
             
             <hr/>
             
-            <h4>4. Lets review what we have so far:</h4>
+            <h4>2.3. Lets review what we have so far:</h4>
             
             <ol>
                 <li>We generate a grid, based on the max_x and max_y value
@@ -154,7 +154,7 @@
             
             <hr/>
             
-            <h4>5. Continuing the path</h4>
+            <h4>2.4 Continuing the path</h4>
             
             <p>Now that we have two connecting positions, we want the borders between them to be removed.</p>
 
@@ -175,7 +175,7 @@
             
             <hr/>
             
-            <h4>7. Our first optimization</h4>
+            <h4>2.5. Our first optimization</h4>
             
             <p>If we have the following situation:<br/>The first point chosen is: 0, 5</p>
 
@@ -241,6 +241,36 @@ did not use, see the following example where once again the first point chosen i
             <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/3.2/pick.js')); ?></code></pre>
 
             <p><a href="code/3.2/index.html" target="_blank">Click here to see the example page</a> where we pick a random potential neighbor and continue the path from there.</p>
+
+            <p><small><strong>Note 1:</strong> to optimize the code, as soon as we visit a point, we will check if this point is marked as 
+a potential neighbor, if so, we can remove it from this list, since we already visited it.</small></p>
+
+            <p><small><strong>Note 2:</strong> an addition to the <i>markAsNeighbor</i> function has been made. We
+ will also store the current point that this neighbor is picked from, so we can use this as a reference to remove the border.</small></p>
+
+            <h4>3.3 Finalizing our maze</h4>
+
+            <p>As you can see in the <a href="code/3.2/index.html" target="_blank">previous example</a>, our maze is fully rendered.</p>
+
+            <p>You might notice that there is 1 thing missing... the starting and end point are not open!</p>
+
+            <p>For creating the start point, we will pick a random position on the y axis, and remove the border on the left:</p>
+
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/3.3/open.js')); ?></code></pre>
+       
+            <p>For creating the end point, we will pick a random position on the y axis, and remove the border on the right:</p>
+
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/3.3/close.js')); ?></code></pre>
+
+            <h3>4. Further development</h3>
+
+            <p>Just for fun, I have set up the same algorithm, with the other chance variations, so you can see 
+what happens when the chance (as described in point 2.5) changes.</p>
+
+            <ul>
+                <li><a href="code/4/x.html" target="_blank">75/25% chance of moving on the x or y axis</a>
+                <li><a href="code/4/y.html" target="_blank">25/75% chance of moving on the x or y axis</a>
+            </ul>
 
             <script>
                 hljs.configure({tabReplace: '    '});
