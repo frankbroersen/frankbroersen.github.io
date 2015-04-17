@@ -1,4 +1,10 @@
 
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 25;
+}
+
 /* Basic Styles for the maze */
 
 #maze {
