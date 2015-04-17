@@ -17,6 +17,9 @@
             line-height: 25px;
         }
         </style>
+        
+        <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+        <script src="http://highlightjs.org/static/highlight.pack.js"></script>
 
     </head>
     <body>
@@ -40,7 +43,7 @@
 
             <p>We will start by creating a html page, maze.html, with the following content:</p>
 
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/1/index.html')); ?></code></pre>
+            <pre><code class="html"><?php echo htmlspecialchars(file_get_contents('code/1/index.html')); ?></code></pre>
 
             <p>As you can see, we include jQuery, we will use jQuery for selecting the table cells
                 so that we can manipulate them. Twitter Bootstrap is there because I like it.</p>
@@ -56,7 +59,7 @@
             <p>Using this max_x and max_y, we can generate the grid so that we have a visual representation
                 of the generation of the maze; the javascript is as follows:</p>
 
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/1/maze.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/1/maze.js')); ?></code></pre>
             
             <p>Later on, we will move this code to a function, so that we can reuse it.</p>
             
@@ -70,11 +73,11 @@
             
             <p>To indicate a position on the grid, we define an object that looks as follows, since a point has an x and y value.</p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/point.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/point.js')); ?></code></pre>
             
             <p>Since we will be generating many random integers, we will create a function for generating one.</p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/rand.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/rand.js')); ?></code></pre>
             
             <hr/>
             
@@ -82,18 +85,18 @@
             
             <p>We will start our maze, always on the left side of the x axis, and pick a random position on the y axis:</p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/start.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/start.js')); ?></code></pre>
             
             <p>To update the class of this point, we create a function that gives us the <i>td</i> that
             corresponds to the given x and y value.</p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/element.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/element.js')); ?></code></pre>
             
             <p>We do not want to come across this point again, so we create an object to store the points
             that we have visited, and create a function to insert the point into the visited object. We will also
             add a class to the td element, so you can see in the grid, that this point is visited.</p>
 
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/visited.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/visited.js')); ?></code></pre>
 
             <hr/>
             
@@ -105,20 +108,20 @@
             <p>This point can be any of the squares that are neighbors of the starting point, let's first
                 find all possible neighbors.</p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/next.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/next.js')); ?></code></pre>
             
             <p>Next, we will add the code to check if this neighbor has already been visited, since we do
             not want to include those in our options for picking the next point on the grid.</p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/next-visited.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/next-visited.js')); ?></code></pre>
             
             <p>Now that we have available neighbors, we randomly pick one:</p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/pick-neighbor.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/pick-neighbor.js')); ?></code></pre>
             
             <p>Lastly, we mark this neighbor as visited.</p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.1/pick-neighbor-visited.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.1/pick-neighbor-visited.js')); ?></code></pre>
             
             <hr/>
             
@@ -149,11 +152,11 @@
                 <li>Remove the border on the left side of the neighbor
             </ul>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.2/borders.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.2/borders.js')); ?></code></pre>
 
             <p>To continue this path, we can repeat the step to find the neighbor, until we cannot find another one, like this: </p>
             
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.2/continue.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.2/continue.js')); ?></code></pre>
             
             <p><a href="code/2.2/index.html" target="_blank">Look at the example</a> to see what you should have right now.</p>
             
@@ -177,7 +180,7 @@
             <p>To make this an equal chance, we can update our code, that in the case that we have 3 options,
                 we give the 1 option that has less chance, the same chance as the other 2.</p>
 
-            <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.3/chance.js')); ?></code></pre>
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/2.3/chance.js')); ?></code></pre>
             
             <p><a href="code/2.3/index.html" target="_blank">Click here to see the example page</a> with 4 versions of the algorithm.</p>
             
@@ -190,6 +193,11 @@
             
             <hr/>
             
+            <script>
+                hljs.configure({tabReplace: '    '});
+                hljs.initHighlightingOnLoad();
+            </script>
+
         </div>
     </body>
 </html>
