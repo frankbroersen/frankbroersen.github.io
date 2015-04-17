@@ -14,7 +14,7 @@
         body {
             font-family: Arial, sans-serif;
             font-size: 16px;
-            line-height: 25;
+            line-height: 25px;
         }
         </style>
 
