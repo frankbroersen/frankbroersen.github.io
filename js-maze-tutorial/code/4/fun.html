@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>Maze Generator</title>
+        
+        <link rel="stylesheet" type="text/css" href="./../bootstrap.min.css" />
+        <link href="./../style.css" rel="stylesheet">
+        
+        <style>
+            /* overwrite the default style, so you can see the rendered maze */
+            #maze {
+                padding-top: 50px;
+            }
+            #maze table td {
+                border: 1px solid #efefef;
+            }    
+            #maze table td.potential {
+                background: #f00;
+            }   
+            td {
+                position: relative;
+            }
+            .start, .end {
+                background: #efefef;
+                position: absolute;
+                top: 0;
+                height: 100%;
+                width: 100%;
+            }
+            .start {
+                left: -100%;
+            }
+            .end {
+                left: 100%;
+            }
+            .container {
+                position: relative;
+            }
+            #maze {
+                z-index: 1;
+            }
+            #maze-overlay {
+                top: 194px;
+                left: 347px;
+                position: absolute;
+                z-index: 2;
+            }
+        </style>
+        
+        <script src="./../jquery.js"></script>
+        <script src="./maze-fun.js"></script>
+        
+    </head>
+    <body>
+
+        <div class='container'>
+            <img src="./maze.jpg" id="maze-overlay" />
+            <div id='maze'></div>
+        </div>
+        
+    </body>
+</html>

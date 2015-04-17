@@ -12,9 +12,9 @@ $(function() {
     maze_wrapper = $('#maze');
 
     // set the size of the grid
-    max_x = 25;
-    max_y = 25;
-
+    max_x = 50;
+    max_y = 30;
+    
     // render the grid
     var html = renderMazeWrapper(max_x, max_y);
 
@@ -23,6 +23,13 @@ $(function() {
 
     // object for storing visited points
     visited = {};
+    
+    // make sure we do not visit the image
+    for(var image_x = 18; image_x < 33; image_x++) {
+        for(var image_y = 8; image_y < 20; image_y++) {
+            visited[image_x + '_' + image_y] = true;
+        }
+    }
     
     // object for storing potential neighbors
     potential_neighbors = {};
@@ -42,11 +49,11 @@ $(function() {
  * Complete the maze
  */
 function finish() {
-    var rand_x = rand(0, max_x);
-    getElement(rand_x, 0).addClass('no-border-top').html('<div class=start></div>');
+    var rand_y = rand(0, max_y);
+    getElement(0, rand_y).addClass('no-border-left').html('<div class=start></div>');
     //
-    var rand_x = rand(0, max_x);
-    getElement(rand_x, max_y - 1).addClass('no-border-bottom').html('<div class=end></div>');
+    var rand_y = rand(0, max_y);
+    getElement(max_x - 1, rand_y).addClass('no-border-right').html('<div class=end></div>');
 }
 
 /**
@@ -88,7 +95,7 @@ function next(point) {
     // find the next point, after half a second
     setTimeout(function(){
         next(neighbor);
-    },50);
+    },10);
 
 }
 
@@ -193,19 +200,19 @@ function findNeighbors(x, y) {
         neighbors.push(option_y);
         count.y++;
     }
-    if(count.x === 1 && count.y === 1) {    // x == 1, so we want to have 3 y
-        neighbors.push(option_y);
-        neighbors.push(option_y);
+    if(count.y === 1 && count.x === 1) {    // y == 1, so we want to have 3 x
+        neighbors.push(option_x);
+        neighbors.push(option_x);
     }
-    if(count.x === 1 && count.y === 2) {    // x == 1, so we want to have 3 y
-        neighbors.push(option_y);
+    if(count.y === 1 && count.x === 2) {    // y == 1, so we want to have 3 x
+        neighbors.push(option_x);
     }
-    if(count.x === 2 && count.y === 1) {    // x == 2, so we want to have 6 y
-        neighbors.push(option_y);
-        neighbors.push(option_y);
-        neighbors.push(option_y);
-        neighbors.push(option_y);
-        neighbors.push(option_y);
+    if(count.y === 2 && count.x === 1) {    // y == 2, so we want to have 6 x
+        neighbors.push(option_x);
+        neighbors.push(option_x);
+        neighbors.push(option_x);
+        neighbors.push(option_x);
+        neighbors.push(option_x);
     }
     return neighbors;
 }
