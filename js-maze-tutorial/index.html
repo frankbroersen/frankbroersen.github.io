@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Javascript Maze Tutorial</title>
+
+        <link rel="stylesheet" type="text/css" href="./code/bootstrap.min.css" />
+
+    </head>
+    <body>
+
+        <div class='container'>
+
+            <h1>JavaScript Maze Tutorial</h1>
+
+            <h4>I wrote this tutorial after reading more into Algorithms and the theory behind them.
+                To put the theory into practice, I tried to write them in Javascript, this is the first
+                one, an algorithm to generate a random maze with a single way of solving it.</h4>
+
+            <p>This tutorial is split in two sections, part one: the theory, will explain the inner
+                workings of the algorithm, part two will walk you through an implementation of this
+                algorithm in javascript.</p>
+
+            <p>The result of the tutorial is a Javascript that will generate a random maze, in a 
+                grid that is defined by user input.</p>
+
+            <p>Pre-requirements:</p>
+            <ul>
+                <li>Beginner javascript knowledge</li>
+            </ul>
+
+            <h2>Part 1: setting up the workspace</h2>
+
+            <p>After following these steps, you will have a html page that we can use to render
+                the maze using javascript. <a href="./code/1/index.html" target="_blank">Click here for an example</a>.</p>
+
+            <p>We will start by creating a html page, maze.html, with the following content:</p>
+
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        
+        &lt;title&gt;Maze Generator&lt;/title&gt;
+        
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./../bootstrap.min.css&quot; /&gt;
+        &lt;link href=&quot;./../style.css&quot; rel=&quot;stylesheet&quot;&gt;
+        
+        &lt;style&gt;
+            /* overwrite the default style, so you can see the rendered maze */
+            #maze table td {
+                border: 1px solid #000;
+            }    
+        &lt;/style&gt;
+        
+        &lt;script src=&quot;./../jquery.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;./maze.js&quot;&gt;&lt;/script&gt;
+        
+    &lt;/head&gt;
+    &lt;body&gt;
+
+        &lt;div class='container'&gt;
+            &lt;div id='maze'&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <p>As you can see, we include jQuery, we will use jQuery for selecting the table cells
+                so that we can manipulate them. Twitter Bootstrap is there because I like it.</p>
+
+            <p>The style.css contains basic styles for displaying the maze, it gives all the table
+                cells a transparent border, and adds classes for use in the maze.</p>
+
+            <h3>Starting conditions</h3>
+
+            <p>Since we are dealing with a square maze in this tutorial, we need to know the dimensions
+                of the maze that we are rendering, we will call them max_x, and max_y.</p>
+
+            <p>Using this max_x and max_y, we can generate the grid so that we have a visual representation
+                of the generation of the maze; the javascript is as follows:</p>
+
+            <pre><code>$(function() {
+    
+    // select the maze wrapper
+    var maze_wrapper = $('#maze');
+    
+    // define the size of the maze
+    var max_x = 30,
+        max_y = 30;
+        
+    // open the table
+    var html = '&lt;table class=&quot;table&quot;&gt;';
+    
+    // loop the rows
+    for(var y = 0; y &lt; max_y; y++) {
+        
+        // open the row
+        html += '&lt;tr&gt;';
+        
+        // loop the columns
+        for(var x = 0; x &lt; max_x; x++) {
+            // add the column, with data('x') and data('y') attributes, so later
+            // on we can easily select them using jQuery 
+            html += '&lt;td data-x=&quot;' + x + '&quot; data-y=&quot;' + y + '&quot;&gt;&lt;/td&gt;';
+        }
+        
+        // close the row
+        html += '&lt;/tr&gt;';
+    }
+    
+    // close the table
+    html += '&lt;/table&gt;';
+    
+    // insert the table into the maze element
+    maze_wrapper.html(html);
+    
+});
+</code></pre>
+
+            <p>Later on, we will move this code to a function, so that we can reuse it.</p>
+
+            <h3>Part 2: explaining the algorithm</h3>
+
+            <p>How will this algorithm actually work?</p>
+
+            <hr/>
+
+            <h4>0. General</h4>
+
+            <p>To indicate a position on the grid, we define an object that looks as follows, since a point has an x and y value.</p>
+
+            <pre><code>var point = {
+    x: 0,
+    y: 0
+};</code></pre>
+
+            <p>Since we will be generating many random integers, we will create a function for generating one.</p>
+
+            <pre><code>function rand(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}</code></pre>
+
+            <hr/>
+
+            <h4>1. The starting point of the maze</h4>
+
+            <p>We will start our maze, always on the left side of the x axis, and pick a random position on the y axis:</p>
+
+            <pre><code>function getStartingPoint(max_y) {
+    return {
+        x: 0,
+        y: rand(0,max_y)
+    };
+}
+var start = getStartingPoint(max_y);</code></pre>
+
+            <p>To update the class of this point, we create a function that gives us the <i>td</i> that
+                corresponds to the given x and y value.</p>
+
+            <pre><code>function getElement(x, y) {
+    // find the element by using the jQuery data selector for the x and y value
+    return maze_wrapper.find('[data-x=&quot;' + x + '&quot;][data-y=&quot;' + y + '&quot;]');
+}</code></pre>
+
+            <p>We do not want to come across this point again, so we create an object to store the points
+                that we have visited, and create a function to insert the point into the visited object. We will also
+                add a class to the td element, so you can see in the grid, that this point is visited.</p>
+
+            <pre><code>/* the object with visited points */
+var visited = {};
+
+/* mark a point as visited */
+function markAsVisited(point) {
+    
+    // add the `visited` class  to the td
+    getElement(point.x, point.y).addClass('visited');
+    
+    // store this point in the visited object
+    visited[ point.x + '_' + point.y ] = true;
+}
+</code></pre>
+
+            <hr/>
+
+            <h4>2. Continuing our path</h4>
+
+            <p>Now that we have our starting point defined, it is time to find the next point on our grid
+                to continue the path of the maze.</p>
+
+            <p>This point can be any of the squares that are neighbors of the starting point, let's first
+                find all possible neighbors.</p>
+
+            <pre><code>var neighbors = [];
+
+// look for the neighbour on the right
+if (x + 1 &lt; max_x) {
+    neighbors.push({x: x + 1, y: y});
+}
+
+// look for the neighbour at the bottom
+if (y + 1 &lt; max_y) {
+    neighbors.push({x: x, y: y + 1});
+}
+
+// look for the neighbour on the left
+if (x - 1 &gt; -1) {
+    neighbors.push({x: x - 1, y: y});
+}
+
+// neighbour on the top
+if (y - 1 &gt; -1) {
+    neighbors.push({x: x, y: y - 1});
+}
+    </code></pre>
+
+            <p>Next, we will add the code to check if this neighbor has already been visited, since we do
+                not want to include those in our options for picking the next point on the grid.</p>
+
+            <pre><code>function isVisited(x, y) {
+    // return true, if the requested x and y exists, we return true
+    return typeof visited[ x + '_' + y ] !== &quot;undefined&quot; ? true : false;
+}
+
+function findNeighbors(x, y) {
+    
+    // we will return a list of neighbors
+    var neighbors = [];
+    
+    // look for the neighbour on the right
+    if (x + 1 &lt; max_x &amp;&amp; this.isVisited(x + 1, y) === false) {
+        neighbors.push({x: x + 1, y: y});
+    }
+    
+    // look for the neighbour at the bottom
+    if (y + 1 &lt; max_y &amp;&amp; this.isVisited(x, y + 1) === false) {
+        neighbors.push({x: x, y: y + 1});
+    }
+    
+    // look for the neighbour on the left
+    if (x - 1 &gt; -1 &amp;&amp; this.isVisited(x - 1, y) === false) {
+        neighbors.push({x: x - 1, y: y});
+    }
+    
+    // neighbour on the top
+    if (y - 1 &gt; -1 &amp;&amp; this.isVisited(x, y - 1) === false) {
+        neighbors.push({x: x, y: y - 1});
+    }
+    
+    // return the list of neighbors
+    return neighbors;
+}</code></pre>
+
+            <p>Now that we have available neighbors, we randomly pick one:</p>
+
+            <pre><code>function pickRandomNeighbor(neighbors) {
+    // return false, if there are none
+    if (!neighbors.length) {
+        return false;
+    }
+    // random key
+    var random = rand(0, neighbors.length);
+    // return this neighbor
+    return neighbors[random];
+}
+
+// find the neighbors
+var neighbors = findNeighbours(start);
+
+// and pick one
+var neighbor = pickRandomNeighbor(neighbors);</code></pre>
+
+            <p>Lastly, we mark this neighbor as visited.</p>
+
+            <pre><code>markAsVisited(neighbor);
+</code></pre>
+
+            <hr/>
+
+            <h4>4. Lets review what we have so far:</h4>
+
+            <ol>
+                <li>We generate a grid, based on the max_x and max_y value
+                <li>We pick a random starting point on the left of the grid
+                <li>We mark this point as visited
+                <li>We look for the neighbor points of the starting point
+                <li>We make sure that these neighbors are not already visited
+                <li>We pick a random neighbor
+                <li>We mark this neighbor as visited
+            </ol>
+
+            <p><a href="code/2.1/index.html" target="_blank">Look at the example</a> to see what you should have right now.</p>
+
+            <hr/>
+
+            <h4>5. Continuing the path</h4>
+
+            <p>Now that we have two connecting positions, we want the borders between them to be removed.</p>
+
+            <p>If the position we are moving towards is on the right of the current position:</p>
+
+            <ul>
+                <li>Remove the border on the right side of the current position
+                <li>Remove the border on the left side of the neighbor
+            </ul>
+
+            <pre><code>function openBorders(current, neighbor) {
+    if (neighbor.x &gt; current.x) {
+        // we went right
+        getElement(neighbor.x, neighbor.y).addClass('no-border-left');
+        getElement(current.x, current.y).addClass('no-border-right');
+    } else if (neighbor.x &lt; current.x) {
+        // we went left
+        getElement(neighbor.x, neighbor.y).addClass('no-border-right');
+        getElement(current.x, current.y).addClass('no-border-left');
+    } else if (neighbor.y &gt; current.y) {
+        // we went up
+        getElement(neighbor.x, neighbor.y).addClass('no-border-top');
+        getElement(current.x, current.y).addClass('no-border-bottom');
+    } else if (neighbor.y &lt; current.y) {
+        // we went down
+        getElement(neighbor.x, neighbor.y).addClass('no-border-bottom');
+        getElement(current.x, current.y).addClass('no-border-top');
+    }
+}</code></pre>
+
+            <p>To continue this path, we can repeat the step to find the neighbor, until we cannot find another one, like this: </p>
+
+            <pre><code>// find a starting point
+var start = getStartingPoint(max_y);
+
+// mark it as visited
+markAsVisited(start);
+
+// call the function to find the next point
+next(start);
+
+// create a function that gets the next point, and if it finds one, do it again
+// after a small timeout.
+function next(point) {
+    // find the neighbors
+    var neighbors = findNeighbors(point.x, point.y);
+
+    // and pick a random one
+    var neighbor = pickRandomNeighbor(neighbors);
+    
+    // if we cannot pick one, return false
+    if(neighbor === false) {
+        return false;
+    }
+
+    // mark it as visited
+    markAsVisited(neighbor);
+    
+    // find the next point, after half a second
+    setTimeout(function(){
+        next(neighbor);
+    },500);
+
+}
+</code></pre>
+
+            <p><a href="code/2.2/index.html" target="_blank">Look at the example</a> to see what you should have right now.</p>
+
+            <hr/>
+
+            <h4>7. Our first optimization</h4>
+
+            <p>If we have the following situation:</p>
+
+            <pre><code>The first point chosen is: 0, 5</code></pre>
+
+            <p>The available options are now:</p>
+
+            <ul>
+                <li>up: 0, 4
+                <li>right: 1, 5
+                <li>down: 0, 6
+            </ul>
+
+            <p>The special thing that you might notice, is that the chance of moving
+                vertically is 66%, while the chance of moving right, is only 33%!</p>
+
+            <p>To solve this, we can update our code, that in the case that we have 3 options,
+                we give the 1 option that has less chance, the same chance as the other 2.</p>
+
+            <hr/>
+
+            <h4>6. Make sure we have an exit</h4>
+
+        </div>
+    </body>
+</html>
