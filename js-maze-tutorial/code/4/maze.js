@@ -832,10 +832,10 @@
      * Complete the maze
      */
     function finish() {
-        var rand_y = rand(0, max_y);
+        var rand_y = rand(max_y - 6, max_y);
         getElement(0, rand_y).addClass('no-border-left').html('<div class=start></div>');
         //
-        var rand_y = rand(0, max_y);
+        var rand_y = rand(0, 6);
         getElement(max_x - 1, rand_y).addClass('no-border-right').html('<div class=end></div>');
     }
 
@@ -1099,10 +1099,10 @@
      * Complete the maze
      */
     function finish() {
-        var rand_x = rand(0, max_x);
+        var rand_x = rand(max_x - 6, max_x);
         getElement(rand_x, 0).addClass('no-border-top').html('<div class=start></div>');
         //
-        var rand_x = rand(0, max_x);
+        var rand_x = rand(0, 6);
         getElement(rand_x, max_y - 1).addClass('no-border-bottom').html('<div class=end></div>');
     }
 
