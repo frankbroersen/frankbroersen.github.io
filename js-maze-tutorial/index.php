@@ -10,6 +10,13 @@
         <title>Javascript Maze Tutorial</title>
 
         <link rel="stylesheet" type="text/css" href="./code/bootstrap.min.css" />
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 25;
+        }
+        </style>
 
     </head>
     <body>
