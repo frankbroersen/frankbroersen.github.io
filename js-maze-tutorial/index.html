@@ -15,6 +15,9 @@
             line-height: 25px;
         }
         </style>
+        
+        <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+        <script src="http://highlightjs.org/static/highlight.pack.js"></script>
 
     </head>
     <body>
@@ -38,7 +41,7 @@
 
             <p>We will start by creating a html page, maze.html, with the following content:</p>
 
-            <pre><code>&lt;!DOCTYPE html&gt;
+            <pre><code class="html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
     &lt;head&gt;
         &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -84,7 +87,7 @@
             <p>Using this max_x and max_y, we can generate the grid so that we have a visual representation
                 of the generation of the maze; the javascript is as follows:</p>
 
-            <pre><code>$(function() {
+            <pre><code class="js">$(function() {
     
     // select the maze wrapper
     var maze_wrapper = $('#maze');
@@ -134,14 +137,14 @@
             
             <p>To indicate a position on the grid, we define an object that looks as follows, since a point has an x and y value.</p>
             
-            <pre><code>var point = {
+            <pre><code class="js">var point = {
     x: 0,
     y: 0
 };</code></pre>
             
             <p>Since we will be generating many random integers, we will create a function for generating one.</p>
             
-            <pre><code>function rand(min, max) {
+            <pre><code class="js">function rand(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }</code></pre>
             
@@ -151,7 +154,7 @@
             
             <p>We will start our maze, always on the left side of the x axis, and pick a random position on the y axis:</p>
             
-            <pre><code>function getStartingPoint(max_y) {
+            <pre><code class="js">function getStartingPoint(max_y) {
     return {
         x: 0,
         y: rand(0,max_y)
@@ -162,7 +165,7 @@ var start = getStartingPoint(max_y);</code></pre>
             <p>To update the class of this point, we create a function that gives us the <i>td</i> that
             corresponds to the given x and y value.</p>
             
-            <pre><code>function getElement(x, y) {
+            <pre><code class="js">function getElement(x, y) {
     // find the element by using the jQuery data selector for the x and y value
     return maze_wrapper.find('[data-x=&quot;' + x + '&quot;][data-y=&quot;' + y + '&quot;]');
 }</code></pre>
@@ -171,7 +174,7 @@ var start = getStartingPoint(max_y);</code></pre>
             that we have visited, and create a function to insert the point into the visited object. We will also
             add a class to the td element, so you can see in the grid, that this point is visited.</p>
 
-            <pre><code>/* the object with visited points */
+            <pre><code class="js">/* the object with visited points */
 var visited = {};
 
 /* mark a point as visited */
@@ -195,7 +198,7 @@ function markAsVisited(point) {
             <p>This point can be any of the squares that are neighbors of the starting point, let's first
                 find all possible neighbors.</p>
             
-            <pre><code>var neighbors = [];
+            <pre><code class="js">var neighbors = [];
 
 // look for the neighbour on the right
 if (x + 1 &lt; max_x) {
@@ -221,7 +224,7 @@ if (y - 1 &gt; -1) {
             <p>Next, we will add the code to check if this neighbor has already been visited, since we do
             not want to include those in our options for picking the next point on the grid.</p>
             
-            <pre><code>function isVisited(x, y) {
+            <pre><code class="js">function isVisited(x, y) {
     // return true, if the requested x and y exists, we return true
     return typeof visited[ x + '_' + y ] !== &quot;undefined&quot; ? true : false;
 }
@@ -257,7 +260,7 @@ function findNeighbors(x, y) {
             
             <p>Now that we have available neighbors, we randomly pick one:</p>
             
-            <pre><code>function pickRandomNeighbor(neighbors) {
+            <pre><code class="js">function pickRandomNeighbor(neighbors) {
     // return false, if there are none
     if (!neighbors.length) {
         return false;
@@ -276,7 +279,7 @@ var neighbor = pickRandomNeighbor(neighbors);</code></pre>
             
             <p>Lastly, we mark this neighbor as visited.</p>
             
-            <pre><code>markAsVisited(neighbor);
+            <pre><code class="js">markAsVisited(neighbor);
 </code></pre>
             
             <hr/>
@@ -308,7 +311,7 @@ var neighbor = pickRandomNeighbor(neighbors);</code></pre>
                 <li>Remove the border on the left side of the neighbor
             </ul>
             
-            <pre><code>function openBorders(current, neighbor) {
+            <pre><code class="js">function openBorders(current, neighbor) {
     if (neighbor.x &gt; current.x) {
         // we went right
         getElement(neighbor.x, neighbor.y).addClass('no-border-left');
@@ -330,7 +333,7 @@ var neighbor = pickRandomNeighbor(neighbors);</code></pre>
 
             <p>To continue this path, we can repeat the step to find the neighbor, until we cannot find another one, like this: </p>
             
-            <pre><code>// find a starting point
+            <pre><code class="js">// find a starting point
 var start = getStartingPoint(max_y);
 
 // mark it as visited
@@ -386,7 +389,7 @@ function next(point) {
             <p>To make this an equal chance, we can update our code, that in the case that we have 3 options,
                 we give the 1 option that has less chance, the same chance as the other 2.</p>
 
-            <pre><code>function findNeighbors(x, y) {
+            <pre><code class="js">function findNeighbors(x, y) {
     var neighbors = [];
     
     // we count the options on the x and y axis
@@ -430,6 +433,11 @@ function next(point) {
             
             <hr/>
             
+            <script>
+                hljs.configure({tabReplace: '    '});
+                hljs.initHighlightingOnLoad();
+            </script>
+
         </div>
     </body>
 </html>
