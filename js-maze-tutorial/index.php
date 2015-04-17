@@ -207,7 +207,43 @@
             </ul>
             
             <hr/>
+
+            <h3>Part 3: completing the algorithm</h3>
             
+            <p>Now that we have an algorithm for generating a single random path, that stops 
+at the moment that there are no unvisited neighbors available, we are going to make the next step.</p>
+
+            <h4>3.1 Marking the potential neighbors</h4>
+
+            <p>To continue the path, we have to select any neighbor that we previously found, but 
+did not use, see the following example where once again the first point chosen is: 0, 5:</p>
+            
+            <ul>
+                <li>moving up: 0, 4
+                <li><strong>moving right: 1, 5 &lt;- this is the chosen neighbor</strong>
+                <li>moving down: 0, 6
+            </ul>
+
+            <p>That gives us 2 remaining neighbors, which we will mark as "potential neighbors".</p>
+            
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/3.1/mark.js')); ?></code></pre>
+            
+            <p><a href="code/3.1/index.html" target="_blank">Click here to see the example page</a> where we highlight the potential neighbors.</p>
+            
+            <h4>3.2 Continuing the path</h4>
+
+            <p>To continue our path, we have to follow the following steps:</p>
+
+            <ol>
+                <li>Pick a potential neighbor
+                <li>Mark this neighbor as visited
+                <li>Find the next point from here
+            </ol>
+
+            <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/3.2/pick.js')); ?></code></pre>
+
+            <p><a href="code/3.2/index.html" target="_blank">Click here to see the example page</a> where we pick a random potential neighbor and continue the path from there.</p>
+
             <script>
                 hljs.configure({tabReplace: '    '});
                 hljs.initHighlightingOnLoad();
