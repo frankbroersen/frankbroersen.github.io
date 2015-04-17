@@ -1,0 +1,37 @@
+
+/* Basic Styles for the maze */
+
+#maze {
+    padding-top: 20px;
+}
+    #maze table {
+        border: 0;
+        border-collapse: separate;
+    }    
+    
+    /* by default, all cells have a transparent border */
+    #maze table tbody tr td {
+        border: 1px solid #efefef;
+        border-top: 1px solid #efefef;
+        padding: 4px;
+        text-align: center;
+    }
+        /* visited cells get a border and background color */
+        #maze table tbody tr td.visited {
+            background: #efefef;
+            border: 1px solid #666;
+            border-top: 1px solid #666;
+        }
+        /* to make a connection between cells, we can add the classes below */
+        #maze table tbody tr td.no-border-left {
+            border-left-color: #efefef;
+        }
+        #maze table tbody tr td.no-border-right {
+            border-right-color: #efefef;
+        }
+        #maze table tbody tr td.no-border-top {
+            border-top-color: #efefef;
+        }
+        #maze table tbody tr td.no-border-bottom {
+            border-bottom-color: #efefef;
+        }

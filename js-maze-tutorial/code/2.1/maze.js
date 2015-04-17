@@ -71,16 +71,16 @@ function isVisited(x, y) {
  */
 function findNeighbors(x, y) {
     var neighbors = [];
-    if (x + 1 < max_x && this.isVisited(x + 1, y) === false) {
+    if (x + 1 < max_x && isVisited(x + 1, y) === false) {
         neighbors.push({x: x + 1, y: y});
     }
-    if (y + 1 < max_y && this.isVisited(x, y + 1) === false) {
+    if (y + 1 < max_y && isVisited(x, y + 1) === false) {
         neighbors.push({x: x, y: y + 1});
     }
-    if (x - 1 > -1 && this.isVisited(x - 1, y) === false) {
+    if (x - 1 > -1 && isVisited(x - 1, y) === false) {
         neighbors.push({x: x - 1, y: y});
     }
-    if (y - 1 > -1 && this.isVisited(x, y - 1) === false) {
+    if (y - 1 > -1 && isVisited(x, y - 1) === false) {
         neighbors.push({x: x, y: y - 1});
     }
     return neighbors;

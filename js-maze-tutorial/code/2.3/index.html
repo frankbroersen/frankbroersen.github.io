@@ -8,7 +8,7 @@
         <title>Maze Generator</title>
         
         <link rel="stylesheet" type="text/css" href="./../bootstrap.min.css" />
-        <link href="./../style.css" rel="stylesheet">
+        <link href="./style.css" rel="stylesheet">
         
         <style>
             /* overwrite the default style, so you can see the rendered maze */
@@ -23,8 +23,33 @@
     </head>
     <body>
 
-        <div class='container'>
-            <div id='maze'></div>
+        <div class='container' id="maze">
+            <h2>Changing the chance of x vs y movement</h2>
+            <p>Please note, this is a % of chance, so there is still a chance that the mazes are rendered exactly the same way.</p>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h2>66% y / 33% x</h2>
+                    <p>This maze has a small chance to move to the right side of the maze</p>
+                    <div id='maze-1'></div>
+                </div>
+                <div class="col-sm-5">
+                    <h2>50% y / 50%x</h2>
+                    <p>This maze has a bigger chance of exploring the right side of the maze</p>
+                    <div id='maze-2'></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <h2>25% y / 75% x</h2>
+                    <p>This maze has a very big chance of moving right on the maze</p>
+                    <div id='maze-3'></div>
+                </div>
+                <div class="col-sm-5">
+                    <h2>75% y / 25%x</h2>
+                    <p>This maze has a very small chance of moving right on the maze</p>
+                    <div id='maze-4'></div>
+                </div>
+            </div>
         </div>
         
     </body>

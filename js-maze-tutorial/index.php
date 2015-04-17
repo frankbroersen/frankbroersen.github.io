@@ -179,9 +179,16 @@
                 we give the 1 option that has less chance, the same chance as the other 2.</p>
 
             <pre><code><?php echo htmlspecialchars(file_get_contents('code/2.3/chance.js')); ?></code></pre>
-
-            <p><a href="code/2.3/index.html" target="_blank">Look at the example</a> to see our equal chance algorithm.</p>
-
+            
+            <p><a href="code/2.3/index.html" target="_blank">Click here to see the example page</a> with 4 versions of the algorithm.</p>
+            
+            <ul>
+                <li>Our original algorithm
+                <li>50/50% chance of moving on the x or y axis
+                <li>75/25% chance of moving on the x or y axis, the maze contains more horizontal lines
+                <li>25/75% chance of moving on the x or y axis, the maze contains more vertical lines
+            </ul>
+            
             <hr/>
             
         </div>
