@@ -271,7 +271,7 @@ what happens when the chance (as described in point 2.5) changes.</p>
                 <li><a href="code/4/x.html" target="_blank">75/25% chance of moving on the x or y axis</a>
                 <li><a href="code/4/y.html" target="_blank">25/75% chance of moving on the x or y axis</a>
                 <li><a href="code/4/fun.html" target="_blank">Putting the image in the center of the maze</a>
-                <li><a href="code/4/compare.html" target="_blank">Lastly, comparing the 3 algoeithms</a>
+                <li><a href="code/4/compare.html" target="_blank">Lastly, comparing the 3 algorithms</a>
             </ul>
 
             <hr/>

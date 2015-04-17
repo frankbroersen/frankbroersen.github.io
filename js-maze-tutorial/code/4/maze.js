@@ -12,7 +12,7 @@
 
         // set the size of the grid
         max_x = 25;
-        max_y = 25;
+        max_y = 30;
 
         // render the grid
         var html = renderMazeWrapper(max_x, max_y);
@@ -87,7 +87,7 @@
         // find the next point, after half a second
         setTimeout(function(){
             next(neighbor);
-        },50);
+        },15);
 
     }
 
@@ -270,7 +270,7 @@
 
         // set the size of the grid
         max_x = 25;
-        max_y = 25;
+        max_y = 30;
 
         // render the grid
         var html = renderMazeWrapper(max_x, max_y);
@@ -345,7 +345,7 @@
         // find the next point, after half a second
         setTimeout(function(){
             next(neighbor);
-        },50);
+        },15);
 
     }
 
@@ -536,7 +536,7 @@
 
         // set the size of the grid
         max_x = 25;
-        max_y = 25;
+        max_y = 30;
 
         // render the grid
         var html = renderMazeWrapper(max_x, max_y);
@@ -611,7 +611,7 @@
         // find the next point, after half a second
         setTimeout(function(){
             next(neighbor);
-        },50);
+        },15);
 
     }
 
