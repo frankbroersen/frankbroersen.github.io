@@ -262,7 +262,7 @@ a potential neighbor, if so, we can remove it from this list, since we already v
 
             <pre><code class="js"><?php echo htmlspecialchars(file_get_contents('code/3.3/close.js')); ?></code></pre>
 
-            <h3>4. Further development</h3>
+            <h3>4. What's next?</h3>
 
             <p>Just for fun, I have set up the same algorithm, with the other chance variations, so you can see 
 what happens when the chance (as described in point 2.5) changes.</p>
@@ -272,6 +272,10 @@ what happens when the chance (as described in point 2.5) changes.</p>
                 <li><a href="code/4/y.html" target="_blank">25/75% chance of moving on the x or y axis</a>
                 <li><a href="code/4/fun.html" target="_blank">Putting the image in the center of the maze</a>
             </ul>
+
+            <hr/>
+
+            <p>&copy; 2015 Frank Broersen</p>
 
             <script>
                 hljs.configure({tabReplace: '    '});
